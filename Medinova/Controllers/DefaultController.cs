@@ -13,8 +13,6 @@ namespace Medinova.Controllers
     {
         MedinovaContext context = new MedinovaContext();
 
-
-
         // GET: Default
         public ActionResult Index()
         {
@@ -89,6 +87,41 @@ namespace Medinova.Controllers
                 dtoList.Add(dto);
             }
             return Json(dtoList, JsonRequestBehavior.AllowGet);
+        }
+
+        public PartialViewResult DefaultBanner()
+        {
+            var banner = context.Banners.FirstOrDefault();
+            return PartialView(banner);
+        }
+
+        public PartialViewResult DefaultAbout()
+        {
+            var about = context.Abouts.FirstOrDefault();
+            return PartialView(about);
+        }
+
+        public PartialViewResult DefaultAboutItem()
+        {
+            var aboutItem = context.AboutItems.ToList();
+            return PartialView(aboutItem);
+        }
+
+        //public PartialViewResult DefaultServices()
+        //{
+        //    var services=context.
+        //}
+
+        public PartialViewResult DefaultDepartman()
+        {
+            var departman = context.Departmens.ToList();
+            return PartialView(departman);
+        }
+
+        public PartialViewResult DefaultTeam()
+        {
+            var doctors = context.Doctors.ToList();
+            return PartialView(doctors);
         }
     }
 }

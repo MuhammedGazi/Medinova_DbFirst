@@ -1,0 +1,31 @@
+﻿@model List<Medinova.Models.Departmen>
+<!-- Pricing Plan Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Bölümlerimiz</h5>
+            <h1 class="display-4">Uzmanlık Alanlarımız</h1>
+        </div>
+
+        <div class="owl-carousel price-carousel position-relative" style="padding: 0 45px 45px 45px;">
+
+            @foreach (var item in Model)
+            {
+                <div class="bg-light rounded text-center shadow-sm h-100">
+
+                    <div class="p-5">
+                        <h3 class="text-primary mb-4">@item.Name</h3>
+
+                        <p class="mb-4" style="font-size: 1.1rem;">
+                            @item.Description
+                        </p>
+
+                        <a href="#!" class="btn btn-primary rounded-pill py-3 px-5 mt-2">Detayları Gör</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!-- Pricing Plan End -->

@@ -19,7 +19,7 @@
           </Key>
           <Property Name="AboutId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="ImageUrl" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Appointments">
@@ -57,6 +57,7 @@
           </Key>
           <Property Name="DepartmenId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Doctors">
           <Key>
@@ -149,7 +150,7 @@
           </Key>
           <Property Name="AboutId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Appointment">
@@ -189,6 +190,7 @@
           <Property Name="DepartmenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Doctors" Relationship="MedinovaDbModel.FK_Doctors_Departmens" FromRole="Departmen" ToRole="Doctor" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Doctor">
           <Key>
@@ -325,6 +327,7 @@
           <EntitySetMapping Name="Departmens">
             <EntityTypeMapping TypeName="MedinovaDbModel.Departmen">
               <MappingFragment StoreEntitySet="Departmens">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="DepartmenId" ColumnName="DepartmenId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
