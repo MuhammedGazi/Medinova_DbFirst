@@ -1,0 +1,50 @@
+﻿@model Medinova.DTOs.AboutItemDtos.ResultAboutItemDto
+@{
+    ViewBag.Title = "UpdateAboutItems";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Madde Güncelle</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row column1">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Maddeyi Düzenle</h2>
+                        </div>
+                    </div>
+                    <div class="full padding_infor_info">
+                        <form method="post">
+                            <input type="hidden" name="AboutItemId" value="@Model.AboutItemId" />
+
+                            <div class="form-group">
+                                <label>Madde İçeriği</label>
+                                <input type="text" class="form-control" name="Name" value="@Model.Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>İkon Sınıfı</label>
+                                <input type="text" class="form-control" name="Icon" value="@Model.Icon" required>
+                            </div>
+
+                            <div class="form-group margin_0">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Güncelle</button>
+                                <a href="/Admin/AboutItem/Index" class="btn btn-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

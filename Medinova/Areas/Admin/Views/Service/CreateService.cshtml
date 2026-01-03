@@ -1,0 +1,54 @@
+﻿@model Medinova.DTOs.ServiceDtos.CreateServiceDto
+@{
+    ViewBag.Title = "CreateService";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Yeni Hizmet Ekle</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row column1">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Hizmet Bilgileri</h2>
+                        </div>
+                    </div>
+                    <div class="full padding_infor_info">
+                        <form method="post">
+                            <div class="form-group">
+                                <label>Hizmet Başlığı</label>
+                                <input type="text" class="form-control" name="Title" placeholder="Örn: Acil Bakım" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>İkon Sınıfı (FontAwesome)</label>
+                                <input type="text" class="form-control" name="Icon" placeholder="Örn: fa-ambulance" required>
+                                <small class="text-muted">Lütfen 'fa-' ile başlayan ikon kodunu giriniz (fa-heartbeat, fa-pills vb.).</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea class="form-control" name="Description" rows="4" placeholder="Hizmet hakkında kısa bilgi..."></textarea>
+                            </div>
+
+                            <div class="form-group margin_0">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
+                                <a href="/Admin/Service/Index" class="btn btn-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

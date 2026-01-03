@@ -1,0 +1,50 @@
+﻿@model Medinova.DTOs.DepartmenDtos.ResultDepartmenDto
+@{
+    ViewBag.Title = "UpdateDepartmen";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Bölüm Güncelle</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row column1">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Bölüm Düzenle</h2>
+                        </div>
+                    </div>
+                    <div class="full padding_infor_info">
+                        <form method="post">
+                            <input type="hidden" name="DepartmenId" value="@Model.DepartmenId" />
+
+                            <div class="form-group">
+                                <label>Bölüm Adı</label>
+                                <input type="text" class="form-control" name="Name" value="@Model.Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea class="form-control" name="Description" rows="5">@Model.Description</textarea>
+                            </div>
+
+                            <div class="form-group margin_0">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Güncelle</button>
+                                <a href="/Admin/Departmen/Index" class="btn btn-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

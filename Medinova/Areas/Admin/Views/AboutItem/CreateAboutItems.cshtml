@@ -1,0 +1,49 @@
+﻿@model Medinova.DTOs.AboutItemDtos.CreateAboutItemDto
+@{
+    ViewBag.Title = "CreateAboutItems";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Yeni Madde Ekle</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row column1">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Madde Bilgileri</h2>
+                        </div>
+                    </div>
+                    <div class="full padding_infor_info">
+                        <form method="post">
+                            <div class="form-group">
+                                <label>Madde İçeriği</label>
+                                <input type="text" class="form-control" name="Name" placeholder="Örn: Kaliteli Hizmet" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>İkon Sınıfı (FontAwesome)</label>
+                                <input type="text" class="form-control" name="Icon" placeholder="Örn: fa-check-circle" required>
+                                <small class="text-muted">Lütfen 'fa-' ile başlayan ikon kodunu giriniz.</small>
+                            </div>
+
+                            <div class="form-group margin_0">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Kaydet</button>
+                                <a href="/Admin/AboutItem/Index" class="btn btn-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

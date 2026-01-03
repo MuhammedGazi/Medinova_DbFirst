@@ -1,0 +1,61 @@
+﻿@model Medinova.DTOs.DoctorDtos.ResultDoctorDto
+@{
+    ViewBag.Title = "UpdateDoctor";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Doktor Güncelle</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row column1">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Doktor Bilgilerini Düzenle</h2>
+                        </div>
+                    </div>
+                    <div class="full padding_infor_info">
+                        <form method="post">
+                            <input type="hidden" name="DoctorId" value="@Model.DoctorId" />
+
+                            <div class="form-group">
+                                <label>Ad Soyad</label>
+                                <input type="text" class="form-control" name="FullName" value="@Model.FullName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bölüm (Departman)</label>
+                                @Html.DropDownListFor(x => x.DepartmenId, (SelectList)ViewBag.Departmens, new { @class = "form-control", required = "required" })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tanıtım / Açıklama</label>
+                                <textarea class="form-control" name="Description" rows="4">@Model.Description</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fotoğraf URL</label>
+                                <input type="text" class="form-control" name="ImageUrl" value="@Model.ImageUrl" required>
+                                <small class="text-muted">Mevcut: <a href="@Model.ImageUrl" target="_blank">Önizle</a></small>
+                            </div>
+
+                            <div class="form-group margin_0">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Güncelle</button>
+                                <a href="/Admin/Doctor/Index" class="btn btn-secondary">İptal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
