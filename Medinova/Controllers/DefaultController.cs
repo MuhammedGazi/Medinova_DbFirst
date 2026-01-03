@@ -107,10 +107,11 @@ namespace Medinova.Controllers
             return PartialView(aboutItem);
         }
 
-        //public PartialViewResult DefaultServices()
-        //{
-        //    var services=context.
-        //}
+        public PartialViewResult DefaultServices()
+        {
+            var services = context.Services.ToList();
+            return PartialView(services);
+        }
 
         public PartialViewResult DefaultDepartman()
         {
@@ -122,6 +123,17 @@ namespace Medinova.Controllers
         {
             var doctors = context.Doctors.ToList();
             return PartialView(doctors);
+        }
+
+        public PartialViewResult DefaultAISearch()
+        {
+            return PartialView();
+        }
+
+        public PartialViewResult DefaultTestimonial()
+        {
+            var testimonial = context.Testimonials.ToList();
+            return PartialView(testimonial);
         }
     }
 }
