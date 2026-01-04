@@ -73,7 +73,7 @@ Projenin kalbinde yer alan `ForecastController` ve `GeminiService` sayesinde:
 ## 📸 Ekran Görüntüleri
 
 ### 📊 Yapay Zeka Destekli Dashboard
-*Makine öğrenimi modellerinin ürettiği tahmin grafikleri ve personel önerileri.*
+*Makine öğrenimi modellerinin ürettiği tahmin grafikleri ve personel önerileri. Gemini ile bölüm yönlendirme.*
 <div align="center">
   <img width="1582" height="802" alt="Image" src="https://github.com/user-attachments/assets/de4d3bcf-633b-4851-ba36-235a21cb3586" />
 </div>
