@@ -4,6 +4,8 @@ using Medinova.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Medinova.Controllers
@@ -12,6 +14,13 @@ namespace Medinova.Controllers
     public class DefaultController : Controller
     {
         MedinovaContext context = new MedinovaContext();
+        private static readonly HttpClient _httpClient = new HttpClient();
+        private readonly GeminiService _geminiService;
+
+        public DefaultController()
+        {
+            _geminiService = new GeminiService(_httpClient);
+        }
 
         // GET: Default
         public ActionResult Index()
@@ -125,6 +134,19 @@ namespace Medinova.Controllers
             return PartialView(doctors);
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult> AIGet(string prompt)
+        {
+            if (!string.IsNullOrEmpty(prompt))
+            {
+                string fullPrompt = $"Sen bir hastane asistanısın. Kullanıcı şu şikayeti belirtti: '{prompt}'. Hangi bölüme gitmesi gerektiğini ve hangi uzmanlık alanının ilgilendiğini kısa ve net bir dille öner.";
+
+                var response = await _geminiService.GetGeminiDataAsync(fullPrompt);
+                return Json(new { success = true, answer = response }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, answer = "Lütfen şikayetinizi yazınız." }, JsonRequestBehavior.AllowGet);
+        }
         public PartialViewResult DefaultAISearch()
         {
             return PartialView();

@@ -1,22 +1,19 @@
-﻿
-
-<div class="container-fluid bg-primary my-5 py-5">
+﻿<div class="container-fluid bg-primary my-5 py-5">
     <div class="container py-5">
         <div class="row gx-5">
             <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="mb-4">
-                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Appointment</h5>
-                    <h1 class="display-4">Make An Appointment For Your Family</h1>
+                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Randevu</h5>
+                    <h1 class="display-4">Aileniz İçin Kolayca Randevu Alın</h1>
                 </div>
                 <p class="text-white mb-5">
-                    Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum.
-                    Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero
-                    eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit.
-                    Sea dolore sanctus sed et. Takimata takimata sanctus sed.
+                    Sağlığınız bizim için önceliklidir. Uzman doktor kadromuz ve modern tıbbi teknolojilerimizle size en iyi hizmeti sunmak için buradayız.
+                    Beklemeden muayene olmak için hemen online randevunuzu oluşturabilir, dilediğiniz bölüm ve doktordan yerinizi ayırtabilirsiniz.
                 </p>
-                <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="#!">Find Doctor</a>
-                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="#!">Read More</a>
+                <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="#!">Doktor Bul</a>
+                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="#!">Daha Fazla Oku</a>
             </div>
+
             <div class="col-lg-6">
                 <div class="bg-white text-center rounded p-5">
                     <h1 class="mb-4">Randevu Oluştur</h1>
@@ -37,7 +34,7 @@
                                        style="height: 55px;">
                             </div>
                             <div class="col-12 col-sm-6">
-                                <input type="email" name="Email" class="form-control bg-light border-0" placeholder="Email Adresiniz"
+                                <input type="email" name="Email" class="form-control bg-light border-0" placeholder="E-Posta Adresiniz"
                                        style="height: 55px;">
                             </div>
                             <div class="col-12 col-sm-6">
@@ -58,8 +55,7 @@
                             </div>
                             <div class="col-12">
                                 <button class="btn btn-primary w-100 py-3" type="submit">
-                                    Make An
-                                    Appointment
+                                    Randevuyu Onayla
                                 </button>
                             </div>
                         </div>
@@ -78,9 +74,7 @@
         $("#DepartmentId").change(function () {
 
             var selectedDepId = $(this).val();
-
             var doctorDropdown = $("#DoctorId");
-
 
             $('#AppointmentDate').val('').trigger('change');
             var timeDropdown = $("#AppointmentTime");
@@ -93,27 +87,27 @@
                 dataType: 'json',
                 success: function (data) {
                     doctorDropdown.empty();
-
+                    // İlk seçenek boş gelsin veya kullanıcıyı yönlendirsin isterseniz:
+                    // doctorDropdown.append('<option value="">Doktor Seçiniz</option>');
 
                     $.each(data, function (i, doctor) {
-
                         doctorDropdown.append($('<option> </option>').val(doctor.Value).html(doctor.Text));
                     });
                 }
             })
-
         })
 
         $("#AppointmentDate").change(function () {
 
             var selectedDate = $(this).val();
-
             var selectedDoctorId = $("#DoctorId").val();
-
             var timeDropdown = $("#AppointmentTime");
 
-            if (selectedDate === '' && selectedDoctorId === '') {
-                timeDropdown.append('<option>---Önce Doktoru ve Tarihi Seçin</option>');
+            if (selectedDate === '' || selectedDoctorId === '' || selectedDoctorId === null) {
+                // Eğer doktor seçilmediyse kullanıcıyı uyarabiliriz
+                timeDropdown.empty();
+                timeDropdown.append('<option>---Önce Doktoru ve Tarihi Seçin---</option>');
+                return;
             }
 
             $.ajax({
@@ -124,8 +118,6 @@
                 success: function (data) {
 
                     timeDropdown.empty();
-
-
 
                     $.each(data, function (i, item) {
 
@@ -141,22 +133,14 @@
 
                         if (isDisabled) {
                             option.prop('disabled', true);
+                            option.css('color', 'red'); // Dolu saatleri kırmızı gösterelim
                         }
 
                         timeDropdown.append(option);
                         timeDropdown.prop('disabled', false);
-
                     });
-
                 }
             });
-
         });
-
-
     });
-
-
-
-
 </script>

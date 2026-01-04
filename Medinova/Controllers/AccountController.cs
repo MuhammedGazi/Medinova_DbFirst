@@ -23,9 +23,27 @@ namespace Medinova.Controllers
                 ModelState.AddModelError("", "kullanıcı adı yada şifre hatalı");
                 return View(dto);
             }
+            var roleId = context.RoleRelations.Where(x => x.UserId == user.UserId).Select(x => x.RoleId).FirstOrDefault();
+            var roleName = context.Roles.Where(x => x.RoleId == roleId).Select(x => x.RoleName).FirstOrDefault();
+
             FormsAuthentication.SetAuthCookie(user.UserName, false);
             Session["userName"] = user.UserName;
             Session["fullName"] = user.FirstName + " " + user.LastName;
+            Session["role"] = roleName;
+            Session["userId"] = user.UserId;
+            if (roleName == "Admin")
+            {
+                return RedirectToAction("Index", "About", new { area = "Admin" });
+            }
+            if (roleName == "Doctor")
+            {
+                return RedirectToAction("Index", "Appointment", new { area = "Doctor" });
+            }
+            if (roleName == "User")
+            {
+                return RedirectToAction("Index", "Appointment", new { area = "User" });
+            }
+
             return RedirectToAction("Index", "AdminAbout");
         }
 

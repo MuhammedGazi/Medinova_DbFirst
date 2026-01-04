@@ -1,0 +1,252 @@
+﻿@using Medinova.DTOs.ForecastDtos
+@model IEnumerable<DepartmentForecastViewModel>
+@{
+    ViewBag.Title = "DepartmentForecast";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <h2 class="m-0"><i class="fa fa-line-chart"></i> 2026 İlk Çeyrek Tahmin Raporu</h2>
+                    <p class="m-0 mt-1">Yapay zeka destekli bölüm yoğunluk ve dağılım analizi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card shadow h-100">
+                <div class="card-header font-weight-bold text-primary">
+                    <i class="fa fa-calendar"></i> Aylık Yoğunluk Trendi (Ocak - Mart)
+                </div>
+                <div class="card-body">
+                    <canvas id="deptChart" style="height: 350px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow h-100">
+                <div class="card-header font-weight-bold text-success">
+                    <i class="fa fa-pie-chart"></i> Toplam Hasta Dağılımı (3 Aylık)
+                </div>
+                <div class="card-body">
+                    <canvas id="pieChart" style="height: 350px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        @{
+            var totalPatients = Model.Sum(x => x.ForecastedCount);
+            var busiestDept = Model.GroupBy(x => x.Department)
+                                   .OrderByDescending(g => g.Sum(y => y.ForecastedCount))
+                                   .FirstOrDefault()?.Key;
+            var peakMonth = Model.OrderByDescending(x => x.ForecastedCount).FirstOrDefault()?.Date;
+            var deepMonth = Model.OrderBy(x => x.ForecastedCount).FirstOrDefault()?.Date;
+        }
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Toplam Beklenen Hasta (3 Ay)
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@totalPatients</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                En Yoğun Bölüm
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@busiestDept</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-heartbeat fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                En Yoğun Dönem
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@peakMonth</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info  text-uppercase mb-1">
+                                En Rahat Dönem
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@deepMonth</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header font-weight-bold text-secondary">
+                    <i class="fa fa-table"></i> Detaylı Tahmin Verileri
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover" id="dataTable">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Bölüm</th>
+                                    <th>Tarih</th>
+                                    <th>Tahmini Hasta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="font-weight-bold text-primary">@item.Department</td>
+                                            <td>@item.Date</td>
+                                            <td><span class="badge badge-info p-2" style="font-size:1em;">@item.ForecastedCount</span></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Server verisini JS'e al
+    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+    if (rawData && rawData.length > 0) {
+        // --- ORTAK VERİ HAZIRLIĞI ---
+        var labels = [...new Set(rawData.map(x => x.Date))]; // Benzersiz aylar
+        var departments = [...new Set(rawData.map(x => x.Department))]; // Benzersiz bölümler
+
+        // Rastgele renk üretici fonksiyon
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Renk havuzu oluştur (Her bölüm için sabit bir renk olsun)
+        var deptColors = {};
+        departments.forEach(d => deptColors[d] = getRandomColor());
+
+        // --- 1. ÇİZGİ GRAFİK (Line Chart) ---
+        var lineDatasets = [];
+        departments.forEach(dept => {
+            var deptData = rawData.filter(x => x.Department === dept).map(x => x.ForecastedCount);
+            lineDatasets.push({
+                label: dept,
+                data: deptData,
+                borderColor: deptColors[dept],
+                backgroundColor: deptColors[dept],
+                fill: false,
+                tension: 0.3 // Çizgileri biraz yumuşat
+            });
+        });
+
+        var ctxLine = document.getElementById('deptChart').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: lineDatasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // --- 2. PASTA GRAFİK (Pie Chart) ---
+        // Her bölümün 3 aylık toplamını hesapla
+        var pieData = [];
+        var pieLabels = [];
+        var pieColors = [];
+
+        departments.forEach(dept => {
+            // O bölüme ait tüm tahminleri topla
+            var total = rawData
+                .filter(x => x.Department === dept)
+                .reduce((sum, item) => sum + item.ForecastedCount, 0);
+
+            pieLabels.push(dept);
+            pieData.push(total);
+            pieColors.push(deptColors[dept]); // Çizgi grafikle aynı rengi kullan
+        });
+
+        var ctxPie = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut', // 'pie' veya 'doughnut'
+            data: {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieData,
+                    backgroundColor: pieColors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+</script>

@@ -36,5 +36,8 @@ namespace Medinova.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Testimonial> Testimonials { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<RoleRelation> RoleRelations { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<UserDoctor> UserDoctors { get; set; }
     }
 }

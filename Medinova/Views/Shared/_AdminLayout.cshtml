@@ -1,49 +1,43 @@
-﻿
-@{
+﻿@{
     Layout = null;
+
+    string userRole = Session["role"] as string;
+    string fullName = Session["fullName"] as string;
+
+    string displayName = fullName;
+    if (userRole == "Admin")
+    {
+        displayName = "Admin"+" "+fullName;
+    }
+
+    // doktorlar için farklı resimi de sesiona atabiliriz
+    string userImg = "/Templates/AdminPluto-1.0.0/images/layout_img/user_img.jpg";
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <!-- basic -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- mobile metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <!-- site metas -->
-    <title>Pluto - Responsive Bootstrap Admin Panel Templates</title>
+    <title>Medinova - Yönetim Paneli</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- site icon -->
     <link rel="icon" href="~/Templates/AdminPluto-1.0.0/images/fevicon.png" type="image/png" />
-    <!-- bootstrap css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/bootstrap.min.css" />
-    <!-- site css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/style.css" />
-    <!-- responsive css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/responsive.css" />
-    <!-- color css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/colors.css" />
-    <!-- select bootstrap -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/bootstrap-select.css" />
-    <!-- scrollbar css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/perfect-scrollbar.css" />
-    <!-- custom css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/css/custom.css" />
-    <!-- calendar file css -->
     <link rel="stylesheet" href="~/Templates/AdminPluto-1.0.0/js/semantic.min.css" />
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body class="inner_page general_elements">
     <div class="full_container">
         <div class="inner_container">
-            <!-- Sidebar  -->
             <nav id="sidebar">
                 <div class="sidebar_blog_1">
                     <div class="sidebar-header">
@@ -54,74 +48,72 @@
                     <div class="sidebar_user_info">
                         <div class="icon_setting"></div>
                         <div class="user_profle_side">
-                            <div class="user_img"><img class="img-responsive" src="~/Templates/AdminPluto-1.0.0/images/layout_img/user_img.jpg" alt="#" /></div>
+                            <div class="user_img"><img class="img-responsive" src="@userImg" alt="#" /></div>
                             <div class="user_info">
-                                <h6>John David</h6>
-                                <p><span class="online_animation"></span> Online</p>
+                                <h6>@displayName</h6>
+                                <p><span class="online_animation"></span> @userRole</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="sidebar_blog_2">
-                    <h4>Yönetim Paneli</h4>
+                    <h4>Menü</h4>
                     <ul class="list-unstyled components">
 
-                        <li>
-                            <a href="/Admin/Banner/Index">
-                                <i class="fa fa-picture-o purple_color2"></i>
-                                <span>Banner İşlemleri</span>
-                            </a>
-                        </li>
+                        @if (userRole == "Admin")
+                        {
+                            <li><a href="/Admin/Banner/Index"><i class="fa fa-picture-o purple_color2"></i> <span>Banner İşlemleri</span></a></li>
+                            <li><a href="/Admin/About/Index"><i class="fa fa-info-circle orange_color"></i> <span>Hakkımızda</span></a></li>
+                            <li><a href="/Admin/AboutItem/Index"><i class="fa fa-list-ul blue1_color"></i> <span>Hakkımızda Maddeler</span></a></li>
+                            <li><a href="/Admin/Service/Index"><i class="fa fa-ambulance red_color"></i> <span>Hizmetler</span></a></li>
+                            <li><a href="/Admin/Departmen/Index"><i class="fa fa-hospital-o green_color"></i> <span>Departmanlar</span></a></li>
+                            <li><a href="/Admin/Doctor/Index"><i class="fa fa-user-md yellow_color"></i> <span>Doktorlar</span></a></li>
+                            <li><a href="/Admin/Testimonial/Index"><i class="fa fa-comments purple_color"></i> <span>Hasta Yorumları</span></a></li>
+                            <li>
+                                <a href="/Admin/Forecast/DepartmentForecast">
+                                    <i class="fa fa-line-chart blue_color"></i>
+                                    <span>Bölüm Tahminleri</span>
+                                </a>
+                            </li>
 
-                        <li>
-                            <a href="/Admin/About/Index">
-                                <i class="fa fa-info-circle orange_color"></i>
-                                <span>Hakkımızda</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/Admin/AboutItem/Index">
-                                <i class="fa fa-list-ul blue1_color"></i>
-                                <span>Hakkımızda Maddeler</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/Admin/Service/Index">
-                                <i class="fa fa-ambulance red_color"></i>
-                                <span>Hizmetler</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/Admin/Departmen/Index">
-                                <i class="fa fa-hospital-o green_color"></i>
-                                <span>Departmanlar</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/Admin/Doctor/Index">
-                                <i class="fa fa-user-md yellow_color"></i>
-                                <span>Doktorlar</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/Admin/Testimonial/Index">
-                                <i class="fa fa-comments purple_color"></i>
-                                <span>Hasta Yorumları</span>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="/Admin/Forecast/HourlyDemandForecast">
+                                    <i class="fa fa-clock-o green_color"></i>
+                                    <span>Saatlik Yoğunluk</span>
+                                </a>
+                            </li>
+                            <li><a href="/Default/Index"><i class="fa fa-comments purple_color"></i> <span>Siteye Dön</span></a></li>
+                        }
+                        else if (userRole == "Doctor")
+                        {
+                            <li>
+                                <a href="/Doctor/Appointment/Index">
+                                    <i class="fa fa-calendar blue1_color"></i>
+                                    <span>Randevular</span>
+                                </a>
+                            </li>
+                            <li><a href="/Default/Index"><i class="fa fa-comments purple_color"></i> <span>Siteye Dön</span></a></li>
+                        }
+                        else if (userRole == "User")
+                        {
+                            <li>
+                                <a href="/User/Appointment/Index">
+                                    <i class="fa fa-calendar-check-o green_color"></i>
+                                    <span>Randevularım</span>
+                                </a>
+                            </li>
+                            <li><a href="/Default/Index"><i class="fa fa-comments purple_color"></i> <span>Siteye Dön</span></a></li>
+                        }
+                        else
+                        {
+                            @* --- GİRİŞ YAPMAMIŞSA --- *@
+                            <li><a href="/Account/Login"><i class="fa fa-sign-in"></i> <span>Giriş Yap</span></a></li>
+                        }
 
                     </ul>
                 </div>
             </nav>
-            <!-- end sidebar -->
-            <!-- right content -->
             <div id="content">
-                <!-- topbar -->
                 <div class="topbar">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <div class="full">
@@ -138,12 +130,14 @@
                                     </ul>
                                     <ul class="user_profile_dd">
                                         <li>
-                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="~/Templates/AdminPluto-1.0.0/images/layout_img/user_img.jpg" alt="#" /><span class="name_user">Admin</span></a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                                <img class="img-responsive rounded-circle" src="@userImg" alt="#" />
+                                                <span class="name_user">@displayName</span>
+                                            </a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="profile.html">My Profile</a>
-                                                <a class="dropdown-item" href="settings.html">Settings</a>
-                                                <a class="dropdown-item" href="help.html">Help</a>
-                                                <a class="dropdown-item" href="#"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                                <a class="dropdown-item" href="profile.html">Profilim</a>
+                                                <a class="dropdown-item" href="settings.html">Ayarlar</a>
+                                                <a class="dropdown-item" href="/Account/Logout"><span>Çıkış Yap</span> <i class="fa fa-sign-out"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -152,34 +146,37 @@
                         </div>
                     </nav>
                 </div>
-                <!-- end topbar -->
-                <br />
-                @RenderBody()
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title">
+                                    <h2>Panel</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        @RenderBody()
+
+                    </div>
+                </div>
+
             </div>
         </div>
-        <!-- model popup -->
     </div>
-    <!-- jQuery -->
     <script src="~/Templates/AdminPluto-1.0.0/js/jquery.min.js"></script>
     <script src="~/Templates/AdminPluto-1.0.0/js/popper.min.js"></script>
     <script src="~/Templates/AdminPluto-1.0.0/js/bootstrap.min.js"></script>
-    <!-- wow animation -->
     <script src="~/Templates/AdminPluto-1.0.0/js/animate.js"></script>
-    <!-- select country -->
     <script src="~/Templates/AdminPluto-1.0.0/js/bootstrap-select.js"></script>
-    <!-- owl carousel -->
     <script src="~/Templates/AdminPluto-1.0.0/js/owl.carousel.js"></script>
-    <!-- chart js-->
     <script src="~/Templates/AdminPluto-1.0.0/js/Chart.min.js"></script>
     <script src="~/Templates/AdminPluto-1.0.0/js/Chart.bundle.min.js"></script>
     <script src="~/Templates/AdminPluto-1.0.0/js/utils.js"></script>
     <script src="~/Templates/AdminPluto-1.0.0/js/analyser.js"></script>
-    <!-- nice scr-->
     <script src="~/Templates/AdminPluto-1.0.0/js/perfect-scrollbar.min.js"></script>
     <script>var ps = new PerfectScrollbar('#sidebar');</script>
-    <!-- custom js -->
     <script src="~/Templates/AdminPluto-1.0.0/js/custom.js"></script>
-    <!-- calendar file css -->
     <script src="~/Templates/AdminPluto-1.0.0/js/semantic.min.js"></script>
 </body>
 </html>

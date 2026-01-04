@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
-    [AllowAnonymous]
     public class DepartmenController : Controller
     {
         MedinovaContext _context = new MedinovaContext();

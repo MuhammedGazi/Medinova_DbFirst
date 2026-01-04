@@ -1,26 +1,83 @@
 ﻿<!-- Search Start -->
 <div class="container-fluid bg-primary my-5 py-5">
     <div class="container py-5">
-        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
-            <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
-            <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
+        <div class="text-center mx-auto mb-5" style="max-width: 600px;">
+            <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Yapay Zeka Asistanı</h5>
+            <h1 class="display-4 mb-4 text-white">Rahatsızlığınız Nedir?</h1>
             <h5 class="text-white fw-normal">
-                Duo ipsum erat stet dolor sea ut nonumy tempor. Tempor duo lorem eos
-                sit sed ipsum takimata ipsum sit est. Ipsum ea voluptua ipsum sit justo
+                Şikayetlerinizi aşağıya kısaca yazın, yapay zeka size en uygun tıbbi bölümü anında önersin.
             </h5>
         </div>
-        <div class="mx-auto" style="width: 100%; max-width: 600px;">
-            <div class="input-group">
-                <select class="form-select border-primary w-25" style="height: 60px;">
-                    <option selected>Department</option>
-                    <option value="1">Department 1</option>
-                    <option value="2">Department 2</option>
-                    <option value="3">Department 3</option>
-                </select>
-                <input type="text" class="form-control border-primary w-50" placeholder="Keyword">
-                <button class="btn btn-dark border-0 w-25">Search</button>
+        <div class="mx-auto" style="width: 100%; max-width: 800px;">
+
+            <div class="input-group input-group-lg shadow-sm">
+                <input type="text" id="txtGeminiPrompt" class="form-control border-white p-4"
+                       placeholder="Örn: Başım çok ağrıyor ve midem bulanıyor..."
+                       style="border-radius: 10px 0 0 10px;">
+
+                <button class="btn btn-dark border-0 px-4" type="button" id="btnAskGemini"
+                        style="border-radius: 0 10px 10px 0; transition: 0.3s;">
+                    <i class="fa fa-robot me-2"></i> Bölüm Öner
+                </button>
             </div>
+
+            <small class="text-white-50 d-block text-center mt-2">
+                * Bu sonuçlar sadece tavsiye niteliğindedir.
+            </small>
+
+            <div id="geminiResultArea" class="mt-4 p-4 bg-white rounded shadow text-dark" style="display:none;">
+                <h5 class="text-primary"><i class="fa fa-user-md"></i> Asistan Önerisi:</h5>
+                <p id="geminiText" class="mb-0" style="font-size: 1.1rem; line-height: 1.6;"></p>
+            </div>
+
+            <div id="geminiLoading" class="text-center mt-4" style="display:none;">
+                <div class="spinner-border text-light" role="status">
+                    <span class="sr-only">Yükleniyor...</span>
+                </div>
+                <p class="text-white mt-2">Analiz ediliyor...</p>
+            </div>
+
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnAskGemini").click(function () {
+            var promptText = $("#txtGeminiPrompt").val();
+
+            if (promptText.trim() === "") {
+                alert("Lütfen bir şikayet yazınız.");
+                return;
+            }
+
+            $("#geminiLoading").show();
+            $("#geminiResultArea").hide();
+            $("#btnAskGemini").prop("disabled", true);
+
+            $.ajax({
+                url: '/Default/AIGet',
+                type: 'GET',
+                data: { prompt: promptText },
+                success: function (response) {
+                    $("#geminiLoading").hide();
+                    $("#btnAskGemini").prop("disabled", false);
+
+                    if (response.success) {
+                        $("#geminiText").text(response.answer);
+                        $("#geminiResultArea").fadeIn();
+                    } else {
+                        alert(response.answer);
+                    }
+                },
+                error: function () {
+                    $("#geminiLoading").hide();
+                    $("#btnAskGemini").prop("disabled", false);
+                    alert("Bağlantı hatası oluştu.");
+                }
+            });
+        });
+    });
+</script>
 <!-- Search End -->

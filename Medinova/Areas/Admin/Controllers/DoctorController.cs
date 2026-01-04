@@ -7,7 +7,6 @@ using System.Web.Mvc;
 
 namespace Medinova.Areas.Admin.Controllers
 {
-    [AllowAnonymous]
     public class DoctorController : Controller
     {
         MedinovaContext _context = new MedinovaContext();
@@ -34,7 +33,7 @@ namespace Medinova.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateDoctor(CreateDoctorDto dto)
         {
-            var doctor = MvcApplication.Mapper.Map<Doctor>(dto);
+            var doctor = MvcApplication.Mapper.Map<Medinova.Models.Doctor>(dto);
             _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

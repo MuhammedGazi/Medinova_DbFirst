@@ -18,6 +18,7 @@ namespace Medinova.Models
         public Doctor()
         {
             this.Appointments = new HashSet<Appointment>();
+            this.UserDoctors = new HashSet<UserDoctor>();
         }
     
         public int DoctorId { get; set; }
@@ -29,5 +30,7 @@ namespace Medinova.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual Departmen Departmen { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserDoctor> UserDoctors { get; set; }
     }
 }

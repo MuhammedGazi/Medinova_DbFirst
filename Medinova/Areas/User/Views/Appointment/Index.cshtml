@@ -1,0 +1,90 @@
+﻿@model List<Medinova.DTOs.AppointmentDtos.ResultUserAppointmentDto>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-white">
+        <h3 class="card-title text-uppercase" style="color: #1ed085; font-weight:bold;">
+            <i class="fa fa-calendar-check-o"></i> Randevularım
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Bölüm</th>
+                        <th>Doktor</th>
+                        <th>Tarih</th>
+                        <th>Saat</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.AppointmentId</td>
+                                <td>
+                                    <span class="font-weight-bold">@item.Departmen</span>
+                                </td>
+                                <td>
+                                    Dr. @item.DoctorName
+                                </td>
+                                <td>@item.AppointmentDate.ToString("dd.MM.yyyy")</td>
+                                <td>
+                                    <i class="fa fa-clock-o text-muted"></i> @item.AppointmentTime
+                                </td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge badge-success p-2">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-secondary p-2">Geçmiş / İptal</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <a href="/User/Appointment/Delete/@item.AppointmentId"
+                                           class="btn btn-outline-danger btn-sm"
+                                           onclick="return confirm('Randevuyu iptal etmek istediğinize emin misiniz?');">
+                                            <i class="fa fa-times"></i> İptal Et
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted text-sm-center">-</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center p-4">
+                                <div class="alert alert-warning m-0">
+                                    <i class="fa fa-info-circle"></i> Henüz kayıtlı bir randevunuz bulunmamaktadır.
+                                </div>
+                                <br />
+                                <a href="/User/Appointment/Create" class="btn btn-success">
+                                    <i class="fa fa-plus"></i> Yeni Randevu Al
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

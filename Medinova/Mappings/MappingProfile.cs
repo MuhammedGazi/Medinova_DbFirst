@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Medinova.DTOs.AboutDtos;
 using Medinova.DTOs.AboutItemDtos;
+using Medinova.DTOs.AppointmentDtos;
 using Medinova.DTOs.BannerDtos;
 using Medinova.DTOs.DepartmenDtos;
 using Medinova.DTOs.DoctorDtos;
@@ -40,11 +41,22 @@ namespace Medinova.Mappings
             CreateMap<Service, UpdateServiceDto>().ReverseMap();
 
             CreateMap<Testimonial, ResultTestimonialDto>().
-                ForMember(dest=>dest.UserFullName,
-                          opt=>opt.MapFrom(src=> src.User.FirstName + " " + src.User.LastName));
+                ForMember(dest => dest.UserFullName,
+                          opt => opt.MapFrom(src => src.User.FirstName + " " + src.User.LastName));
             CreateMap<Testimonial, CreateTestimonialDto>().ReverseMap();
             CreateMap<Testimonial, UpdateTestimonialDto>().ReverseMap();
-           
+
+
+            CreateMap<Appointment, ResultAppointmentDto>().
+                ForMember(dest => dest.Departmen,
+                          opt => opt.MapFrom(src => src.Doctor.Departmen.Name));
+
+            CreateMap<Appointment, ResultUserAppointmentDto>().
+                ForMember(dest => dest.Departmen,
+                          opt => opt.MapFrom(src => src.Doctor.Departmen.Name)).
+                ForMember(dest => dest.DoctorName,
+                          opt => opt.MapFrom(src => src.Doctor.FullName));
+
         }
     }
 }

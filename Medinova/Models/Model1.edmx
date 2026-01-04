@@ -69,6 +69,21 @@
           <Property Name="DepartmenId" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
         </EntityType>
+        <EntityType Name="RoleRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Services">
           <Key>
             <PropertyRef Name="ServiceId" />
@@ -94,6 +109,14 @@
           </Key>
           <Property Name="TestimonialId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserDoctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="int" />
           <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="Users">
@@ -130,6 +153,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RoleRelation_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="RoleRelation" Type="Self.RoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RoleRelation">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleRelation_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="RoleRelation" Type="Self.RoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="RoleRelation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Testimonials_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Testimonials" Type="Self.Testimonials" Multiplicity="*" />
@@ -142,6 +189,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserDoctor_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="0..1" />
+          <End Role="UserDoctor" Type="Self.UserDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="UserDoctor">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDoctor_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserDoctor" Type="Self.UserDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDoctor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MedinovaDbModelStoreContainer">
           <EntitySet Name="AboutItems" EntityType="Self.AboutItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Abouts" EntityType="Self.Abouts" Schema="dbo" store:Type="Tables" />
@@ -150,9 +221,12 @@
           <EntitySet Name="Dates" EntityType="Self.Dates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departmens" EntityType="Self.Departmens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleRelation" EntityType="Self.RoleRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDoctor" EntityType="Self.UserDoctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Appointments_Doctors" Association="Self.FK_Appointments_Doctors">
             <End Role="Doctors" EntitySet="Doctors" />
@@ -162,9 +236,25 @@
             <End Role="Departmens" EntitySet="Departmens" />
             <End Role="Doctors" EntitySet="Doctors" />
           </AssociationSet>
+          <AssociationSet Name="FK_RoleRelation_Roles" Association="Self.FK_RoleRelation_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleRelation" EntitySet="RoleRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleRelation_Users" Association="Self.FK_RoleRelation_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RoleRelation" EntitySet="RoleRelation" />
+          </AssociationSet>
           <AssociationSet Name="FK_Testimonials_Users" Association="Self.FK_Testimonials_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Testimonials" EntitySet="Testimonials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDoctor_Doctors" Association="Self.FK_UserDoctor_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="UserDoctor" EntitySet="UserDoctor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDoctor_Users" Association="Self.FK_UserDoctor_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserDoctor" EntitySet="UserDoctor" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -238,6 +328,7 @@
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Appointments" Relationship="MedinovaDbModel.FK_Appointments_Doctors" FromRole="Doctor" ToRole="Appointment" />
           <NavigationProperty Name="Departmen" Relationship="MedinovaDbModel.FK_Doctors_Departmens" FromRole="Doctor" ToRole="Departmen" />
+          <NavigationProperty Name="UserDoctors" Relationship="MedinovaDbModel.FK_UserDoctor_Doctors" FromRole="Doctor" ToRole="UserDoctor" />
         </EntityType>
         <EntityContainer Name="MedinovaContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AboutItems" EntityType="Self.AboutItem" />
@@ -263,6 +354,25 @@
             <End Role="Testimonial" EntitySet="Testimonials" />
           </AssociationSet>
           <EntitySet Name="Services" EntityType="MedinovaDbModel.Service" />
+          <EntitySet Name="RoleRelations" EntityType="MedinovaDbModel.RoleRelation" />
+          <EntitySet Name="Roles" EntityType="MedinovaDbModel.Role" />
+          <AssociationSet Name="FK_RoleRelation_Roles" Association="MedinovaDbModel.FK_RoleRelation_Roles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="RoleRelation" EntitySet="RoleRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleRelation_Users" Association="MedinovaDbModel.FK_RoleRelation_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="RoleRelation" EntitySet="RoleRelations" />
+          </AssociationSet>
+          <EntitySet Name="UserDoctors" EntityType="MedinovaDbModel.UserDoctor" />
+          <AssociationSet Name="FK_UserDoctor_Doctors" Association="MedinovaDbModel.FK_UserDoctor_Doctors">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="UserDoctor" EntitySet="UserDoctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDoctor_Users" Association="MedinovaDbModel.FK_UserDoctor_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserDoctor" EntitySet="UserDoctors" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="sysdiagram">
           <Key>
@@ -308,6 +418,8 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Testimonials" Relationship="MedinovaDbModel.FK_Testimonials_Users" FromRole="User" ToRole="Testimonial" />
+          <NavigationProperty Name="RoleRelations" Relationship="MedinovaDbModel.FK_RoleRelation_Users" FromRole="User" ToRole="RoleRelation" />
+          <NavigationProperty Name="UserDoctors" Relationship="MedinovaDbModel.FK_UserDoctor_Users" FromRole="User" ToRole="UserDoctor" />
         </EntityType>
         <EntityType Name="Testimonial">
           <Key>
@@ -339,6 +451,82 @@
           <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="RoleRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Role" Relationship="MedinovaDbModel.FK_RoleRelation_Roles" FromRole="RoleRelation" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="MedinovaDbModel.FK_RoleRelation_Users" FromRole="RoleRelation" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RoleRelations" Relationship="MedinovaDbModel.FK_RoleRelation_Roles" FromRole="Role" ToRole="RoleRelation" />
+        </EntityType>
+        <Association Name="FK_RoleRelation_Roles">
+          <End Type="MedinovaDbModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="MedinovaDbModel.RoleRelation" Role="RoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RoleRelation">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleRelation_Users">
+          <End Type="MedinovaDbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MedinovaDbModel.RoleRelation" Role="RoleRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="RoleRelation">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserDoctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Doctor" Relationship="MedinovaDbModel.FK_UserDoctor_Doctors" FromRole="UserDoctor" ToRole="Doctor" />
+          <NavigationProperty Name="User" Relationship="MedinovaDbModel.FK_UserDoctor_Users" FromRole="UserDoctor" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserDoctor_Doctors">
+          <End Type="MedinovaDbModel.Doctor" Role="Doctor" Multiplicity="0..1" />
+          <End Type="MedinovaDbModel.UserDoctor" Role="UserDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="UserDoctor">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDoctor_Users">
+          <End Type="MedinovaDbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MedinovaDbModel.UserDoctor" Role="UserDoctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDoctor">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -454,6 +642,32 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleRelations">
+            <EntityTypeMapping TypeName="MedinovaDbModel.RoleRelation">
+              <MappingFragment StoreEntitySet="RoleRelation">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MedinovaDbModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDoctors">
+            <EntityTypeMapping TypeName="MedinovaDbModel.UserDoctor">
+              <MappingFragment StoreEntitySet="UserDoctor">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

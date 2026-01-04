@@ -19,6 +19,13 @@
         <EntityTypeShape EntityType="MedinovaDbModel.Testimonial" Width="1.5" PointX="10.375" PointY="4" />
         <AssociationConnector Association="MedinovaDbModel.FK_Testimonials_Users" />
         <EntityTypeShape EntityType="MedinovaDbModel.Service" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="MedinovaDbModel.RoleRelation" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MedinovaDbModel.Role" Width="1.5" PointX="7.375" PointY="7.875" />
+        <AssociationConnector Association="MedinovaDbModel.FK_RoleRelation_Roles" />
+        <AssociationConnector Association="MedinovaDbModel.FK_RoleRelation_Users" />
+        <EntityTypeShape EntityType="MedinovaDbModel.UserDoctor" Width="1.5" PointX="10.375" PointY="0.75" />
+        <AssociationConnector Association="MedinovaDbModel.FK_UserDoctor_Doctors" />
+        <AssociationConnector Association="MedinovaDbModel.FK_UserDoctor_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,238 @@
+﻿@using Medinova.DTOs.ForecastDtos
+@model IEnumerable<HourlyForecastViewModel>
+
+@{
+    ViewBag.Title = "Saatlik Operasyon Paneli";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var list = Model != null ? Model.ToList() : new List<HourlyForecastViewModel>();
+
+    var totalDailyPatients = list.Sum(x => x.PredictedLoad);
+    var averageLoad = list.Any() ? (int)list.Average(x => x.PredictedLoad) : 0;
+
+    var peakHourItem = list.OrderByDescending(x => x.PredictedLoad).FirstOrDefault();
+    var peakHour = peakHourItem != null ? peakHourItem.Hour : "-";
+    var peakLoad = peakHourItem != null ? peakHourItem.PredictedLoad : 0;
+
+    // Saatte 1 doktor 8 hasta
+    int doctorCapacityPerHour = 8;
+    var maxDoctorsNeeded = peakLoad > 0 ? (int)Math.Ceiling((double)peakLoad / doctorCapacityPerHour) : 0;
+}
+
+<div class="container-fluid py-4">
+
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Günlük Beklenen Hasta
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@totalDailyPatients <small class="text-muted">Kişi</small></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                En Yoğun Saat
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@peakHour <small>(@peakLoad Hasta)</small></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-clock-o fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Saatlik Ortalama
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">~@averageLoad <small>Hasta/Saat</small></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-bar-chart fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Max Doktor İhtiyacı
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@maxDoctorsNeeded <small>Hekim (Peak Saatte)</small></div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa fa-user-md fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-area-chart"></i> Saatlik Hasta Trafiği</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="hourlyChart" style="min-height: 320px;"></canvas>
+                    </div>
+                    <hr>
+                    <small class="text-muted">
+                        * Renkler yoğunluğa göre otomatik değişir: <span class="text-danger">● Yoğun</span>, <span class="text-warning">● Normal</span>, <span class="text-success">● Sakin</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-secondary"><i class="fa fa-list-ol"></i> Operasyonel Detaylar</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                        <table class="table table-striped table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Saat</th>
+                                    <th>Yük</th>
+                                    <th>Durum</th>
+                                    <th>Öneri</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in list)
+                                {
+                                    string badgeClass = "badge-secondary";
+                                    string icon = "fa-minus";
+                                    string statusText = "Normal";
+                                    string rowColor = "";
+
+                                    if (item.PredictedLoad > averageLoad * 1.1)
+                                    {
+                                        badgeClass = "badge-danger";
+                                        icon = "fa-arrow-up";
+                                        statusText = "Yoğun";
+                                    }
+                                    else if (item.PredictedLoad < averageLoad * 0.9)
+                                    {
+                                        badgeClass = "badge-success";
+                                        icon = "fa-arrow-down";
+                                        statusText = "Sakin";
+                                    }
+                                    else
+                                    {
+                                        badgeClass = "badge-warning";
+                                        statusText = "Stabil";
+                                    }
+
+                                    int docsNeeded = (int)Math.Ceiling((double)item.PredictedLoad / doctorCapacityPerHour);
+
+                                    <tr class="@rowColor">
+                                        <td class="font-weight-bold align-middle">@item.Hour</td>
+                                        <td class="align-middle">
+                                            <span class="h5 font-weight-bold">@item.PredictedLoad</span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <span class="badge @badgeClass px-2 py-1">
+                                                <i class="fa @icon"></i> @statusText
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-xs font-weight-bold text-secondary">
+                                            <i class="fa fa-user-md"></i> @docsNeeded Hekim
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(list));
+    var avgLoad = @averageLoad;
+
+    if (rawData && rawData.length > 0) {
+        var labels = rawData.map(x => x.Hour);
+        var dataValues = rawData.map(x => x.PredictedLoad);
+
+        var backgroundColors = dataValues.map(value => {
+            if (value > avgLoad * 1.1) return 'rgba(231, 74, 59, 0.8)'; 
+            if (value < avgLoad * 0.9) return 'rgba(28, 200, 138, 0.8)'; 
+            return 'rgba(246, 194, 62, 0.8)';
+        });
+
+        var borderColors = dataValues.map(value => {
+            if (value > avgLoad * 1.1) return 'rgba(231, 74, 59, 1)';
+            if (value < avgLoad * 0.9) return 'rgba(28, 200, 138, 1)';
+            return 'rgba(246, 194, 62, 1)';
+        });
+
+        var ctx = document.getElementById('hourlyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Hasta Sayısı',
+                    data: dataValues,
+                    backgroundColor: backgroundColors,
+                    borderColor: borderColors,
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false } 
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4] }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+</script>
