@@ -1,7 +1,5 @@
 <div align="center">
-<div align="center">
   <img src="https://placehold.co/1200x400/20B2AA/ffffff?text=MEDINOVA+AI+HOSPITAL+SYSTEM&font=montserrat" alt="Medinova Banner" width="100%" />
-</div>
   <br />
   <br />
 
