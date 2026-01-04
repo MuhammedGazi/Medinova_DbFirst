@@ -63,8 +63,8 @@ Projenin kalbinde yer alan `ForecastController` ve `GeminiService` sayesinde:
 | Backend | Frontend | Veri & AI | Araçlar |
 | :---: | :---: | :---: | :---: |
 | <img src="https://skillicons.dev/icons?i=cs,dotnet" width="50"/> | <img src="https://skillicons.dev/icons?i=html,css,bootstrap,js,jquery" width="50"/> | <img src="https://img.shields.io/badge/MSSQL-CC2927?style=flat&logo=microsoft-sql-server&logoColor=white" height="40"/> | <img src="https://skillicons.dev/icons?i=visualstudio,git,github" width="50"/> |
-| **ASP.NET MVC 5** | **AdminPluto Template** | **ML.NET (Time Series)** | **NuGet** |
-| **Entity Framework 6** | **Chart.js** | **Google Gemini API** | **Postman** |
+| **ASP.NET Framework 4.8 MVC** | **AdminPluto Template** | **ML.NET (Time Series)** | **NuGet** |
+| **Entity Framework 6** | **Chart.js** | **Google Gemini API** | **Auto Mapper** |
 
 </div>
 
@@ -78,21 +78,4 @@ Projenin kalbinde yer alan `ForecastController` ve `GeminiService` sayesinde:
   <img src="https://via.placeholder.com/800x450/eeeeee/000000?text=Dashboard+ve+Tahmin+Ekrani" alt="Dashboard" width="800" />
 </div>
 
-### 📅 Randevu Yönetimi
-*Admin ve Doktorlar için sürükle-bırak destekli takvim yönetimi.*
-<div align="center">
-  <img src="https://via.placeholder.com/800x450/eeeeee/000000?text=Randevu+Yonetimi" alt="Appointments" width="800" />
-</div>
 
----
-
-## ⚙️ Kurulum ve Çalıştırma
-
-Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
-
-<details>
-<summary>📦 Adım 1: Projeyi Klonlayın</summary>
-
-```bash
-git clone [https://github.com/muhammedgazi/medinova_dbfirst.git](https://github.com/muhammedgazi/medinova_dbfirst.git)
-cd medinova_dbfirst
