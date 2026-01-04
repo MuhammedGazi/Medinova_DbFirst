@@ -1,5 +1,7 @@
 <div align="center">
-
+<div align="center">
+  <img src="https://placehold.co/1200x400/20B2AA/ffffff?text=MEDINOVA+AI+HOSPITAL+SYSTEM&font=montserrat" alt="Medinova Banner" width="100%" />
+</div>
   <br />
   <br />
 
@@ -31,7 +33,7 @@
 
 **Medinova**, sadece hastaların kayıtlarını tutan bir sistem değildir; hastanenin operasyonel verimliliğini artırmak için **Geleceği Tahmin Eden** akıllı bir platformdur. 
 
-ASP.NET MVC mimarisi üzerine kurulu bu proje, **Entity Framework (DbFirst)** ile sağlam bir veri yönetimi sunarken, **Microsoft ML.NET** kütüphaneleri ile geçmiş verilerden öğrenerek gelecek hasta yoğunluğunu tahmin eder. Ayrıca **Google Gemini AI** entegrasyonu ile yöneticilere akıllı asistanlık yapar.
+ASP.NET MVC mimarisi üzerine kurulu bu proje, **Entity Framework (DbFirst)** ile sağlam bir veri yönetimi sunarken, **Microsoft ML.NET** kütüphaneleri ile geçmiş verilerden öğrenerek gelecek hasta yoğunluğunu tahmin eder. Ayrıca **Google Gemini AI** entegrasyonu ile hastalara akıllı asistanlık yapar.
 
 ## ✨ Öne Çıkan Özellikler
 
