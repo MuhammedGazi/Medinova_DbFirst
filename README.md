@@ -78,7 +78,7 @@ Projenin kalbinde yer alan `ForecastController` ve `GeminiService` sayesinde:
   <img width="1582" height="802" alt="Image" src="https://github.com/user-attachments/assets/de4d3bcf-633b-4851-ba36-235a21cb3586" />
 </div>
 <div align="center">
-  <img width="1324" height="769" alt="Image" src="https://github.com/user-attachments/assets/7fcf8605-0066-4bc5-a6e0-802901c103a5" />[](url)
+  <img width="1324" height="769" alt="Image" src="https://github.com/user-attachments/assets/7fcf8605-0066-4bc5-a6e0-802901c103a5" />
 </div>
 <div align="center">
   <img width="1610" height="943" alt="Image" src="https://github.com/user-attachments/assets/6cd8cba7-d6cc-4b3d-8f94-e4d2adae68ae" />
